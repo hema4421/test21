@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d5e55d39-58bb-4e80-aa1a-ff61ccb31e22" >
+		<http:listener-connection host="localhost" port="8082" />
+	</http:listener-config>
+	<flow name="log5Flow" doc:id="c2ecdfd0-7b91-4702-8980-5951eab2b715" >
+		<http:listener doc:name="Listener" doc:id="78253b05-0a4d-4408-9933-2c00bc41bcbf" config-ref="HTTP_Listener_config" path="/l5"/>
+		<logger level="DEBUG" doc:name="Logger" doc:id="aa5bcca9-18d4-4fc9-bf49-31bab61fd036" message="#[payload]"/>
+		<logger level="ERROR" doc:name="Logger" doc:id="6c19a0df-2138-4502-8fbb-e157acd8fb42" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="2e97d349-a2fb-457a-97b8-bb0f1947edab" message="#[payload]"/>
+		<logger level="TRACE" doc:name="Logger" doc:id="1046a633-4976-487a-934e-ebb55b09bf9f" message="#[payload]"/>
+		<logger level="WARN" doc:name="Logger" doc:id="f7a0b9d8-c3c2-44cf-8c73-5ff26d753488" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="2ca77a09-b1f9-46e1-9078-ced15200c2e0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+'logging levels']]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
